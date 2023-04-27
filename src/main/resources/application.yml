@@ -1,0 +1,31 @@
+server:
+  port: 8086
+spring:
+  kafka:
+    template:
+      default-topic: sandpit.cf-oms-poc-store-stock-topic
+    producer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:}
+      key-serializer: org.apache.kafka.common.serialization.LongSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    consumer:
+      bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVER:}
+      key-deserializer: org.apache.kafka.common.serialization.LongDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      group-id: cf-oms-poc
+    admin:
+      properties:
+        bootstrap.servers: ${KAFKA_BOOTSTRAP_SERVER:}
+    properties:
+      basic:
+        auth:
+          credentials:
+            source: USER_INFO
+          user:
+            info: "${KAFKA_SCHEMA_REGISTRY_API_KEY:}:${KAFKA_SCHEMA_REGISTRY_SECRET:}"
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: PLAIN
+        jaas:
+          config: "org.apache.kafka.common.security.plain.PlainLoginModule   required username='${KAFKA_SCHEMA_REGISTRY_API_KEY:}'   password='${KAFKA_SCHEMA_REGISTRY_SECRET:}';"

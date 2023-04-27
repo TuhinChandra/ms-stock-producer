@@ -1,2 +1,1 @@
-# ms-stock-producer
-ms-stock-producer
+# Real Time Stock using Kafka
